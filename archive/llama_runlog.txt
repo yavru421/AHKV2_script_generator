@@ -1,0 +1,153 @@
+[2025-08-26 11:53:44,288] [INFO] Llama API call: prompt=volume control with scroll wheel on mouse and holding cntrl + alt
+[2025-08-26 11:53:44,582] [INFO] Llama API response: status=400
+[2025-08-26 11:53:44,582] [ERROR] Llama API error: 400 Client Error: Bad Request for url: https://api.llama.com/v1/chat/completions
+[2025-08-26 12:37:05,613] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=64
+[2025-08-26 12:37:06,956] [INFO] Llama API response status=200
+[2025-08-26 12:37:06,957] [INFO] Llama API result chars=0
+[2025-08-26 12:48:28,118] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=60
+[2025-08-26 12:48:29,089] [INFO] Llama API response status=200
+[2025-08-26 12:48:29,090] [WARNING] Empty code extracted. Raw JSON snippet: {'id': 'AYdLNoRIqN7GjJDaU91zQlq', 'completion_message': {'role': 'assistant', 'stop_reason': 'stop', 'content': {'type': 'text', 'text': '```autohotkey\n^!WheelUp::Send "{Volume_Up}"\n^!WheelDown::Send "{Volume_Down}"\n```'}}, 'metrics': [{'metric': 'num_completion_tokens', 'value': 30, 'unit': 'tokens'}, {'metric': 'num_prompt_tokens', 'value': 46, 'unit': 'tokens'}, {'metric': 'num_total_tokens', 'value': 76, 'unit': 'tokens'}]}
+[2025-08-26 15:59:30,351] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/ prompt_len=62
+[2025-08-26 15:59:30,689] [INFO] Llama API response status=404
+[2025-08-26 15:59:30,689] [ERROR] Llama API error: 404 Client Error: Not Found for url: https://api.llama.com/v1/
+[2025-08-26 15:59:36,265] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=62
+[2025-08-26 15:59:37,471] [INFO] Llama API response status=200
+[2025-08-26 15:59:37,471] [INFO] Llama API result chars=90
+[2025-08-26 16:02:29,976] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=24
+[2025-08-26 16:02:30,540] [INFO] Llama API response status=200
+[2025-08-26 16:02:30,540] [INFO] Llama API result chars=2
+[2025-08-26 16:18:24,942] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=72
+[2025-08-26 16:18:25,805] [INFO] Llama API response status=200
+[2025-08-26 16:18:25,805] [INFO] Llama API result chars=32
+[2025-08-26 16:20:45,454] [INFO] Llama API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=32
+[2025-08-26 16:20:46,234] [INFO] Llama API response status=200
+[2025-08-26 16:20:46,235] [INFO] Llama API result chars=26
+[2025-08-26 16:21:29,389] [INFO] Llama API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=29
+[2025-08-26 16:21:33,049] [INFO] Llama API response status=200
+[2025-08-26 16:21:33,049] [INFO] Llama API result chars=32
+[2025-08-26 16:21:45,501] [INFO] Llama API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=35
+[2025-08-26 16:22:05,314] [INFO] Llama API response status=200
+[2025-08-26 16:22:05,314] [INFO] Llama API result chars=24
+[2025-08-26 16:22:13,373] [INFO] Llama API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=35
+[2025-08-26 16:22:13,979] [INFO] Llama API response status=200
+[2025-08-26 16:22:13,980] [INFO] Llama API result chars=34
+[2025-08-26 16:28:37,795] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=30
+[2025-08-26 16:28:38,473] [INFO] Llama API response status=200
+[2025-08-26 16:28:38,473] [INFO] Llama API result chars=22
+[2025-08-26 16:31:45,237] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=38
+[2025-08-26 16:31:46,690] [INFO] Llama API response status=200
+[2025-08-26 16:31:46,690] [INFO] Llama API result chars=155
+[2025-08-26 16:32:29,172] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=38
+[2025-08-26 16:32:30,083] [INFO] Llama API response status=200
+[2025-08-26 16:32:30,083] [INFO] Llama API result chars=65
+[2025-08-26 16:37:20,316] [INFO] Using official client for prompt_len=39
+[2025-08-26 16:37:21,134] [WARNING] Official client failed, falling back to requests
+[2025-08-26 16:37:21,134] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=39
+[2025-08-26 16:37:21,988] [INFO] Llama API response status=200
+[2025-08-26 16:37:21,988] [INFO] Llama API result chars=22
+[2025-08-26 16:40:05,774] [INFO] Using official client for prompt_len=56
+[2025-08-26 16:40:10,813] [WARNING] Official client failed, falling back to requests
+[2025-08-26 16:40:10,813] [INFO] Llama API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=56
+[2025-08-26 16:40:11,919] [INFO] Llama API response status=200
+[2025-08-26 16:40:11,920] [INFO] Llama API result chars=63
+[2025-08-26 16:56:23,182] [INFO] Using API type: openai_compatible for prompt_len=24
+[2025-08-26 16:56:23,656] [ERROR] OpenAI-compatible client error: 'choices'
+[2025-08-26 16:56:23,656] [WARNING] OpenAI-compatible client failed, trying Llama
+[2025-08-26 16:56:23,657] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=24
+[2025-08-26 16:56:25,880] [INFO] Llama API response status=200
+[2025-08-26 16:56:25,880] [INFO] Llama API result chars=2
+[2025-08-26 17:08:43,906] [INFO] Using API type: llama for prompt_len=75
+[2025-08-26 17:08:46,133] [INFO] Using API type: llama for prompt_len=75
+[2025-08-26 17:08:47,732] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:08:47,732] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=75
+[2025-08-26 17:08:52,744] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:08:52,744] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=75
+[2025-08-26 17:08:57,299] [INFO] Llama API response status=200
+[2025-08-26 17:08:57,299] [INFO] Llama API result chars=517
+[2025-08-26 17:08:58,294] [INFO] Llama API response status=200
+[2025-08-26 17:08:58,294] [INFO] Llama API result chars=755
+[2025-08-26 17:09:20,158] [INFO] Using API type: llama for fix, prompt_len=1579
+[2025-08-26 17:09:28,821] [WARNING] Official Llama client failed for fix, falling back to requests
+[2025-08-26 17:09:28,822] [INFO] Fallback fix call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=1579
+[2025-08-26 17:09:39,464] [INFO] Llama API response status=200
+[2025-08-26 17:09:39,464] [INFO] Llama API result chars=819
+[2025-08-26 17:09:47,541] [INFO] Using API type: llama for fix, prompt_len=1126
+[2025-08-26 17:09:52,418] [INFO] Using API type: llama for prompt_len=15
+[2025-08-26 17:09:54,353] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:09:54,353] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=15
+[2025-08-26 17:09:55,197] [WARNING] Official Llama client failed for fix, falling back to requests
+[2025-08-26 17:09:55,197] [INFO] Fallback fix call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=1126
+[2025-08-26 17:09:57,579] [INFO] Llama API response status=200
+[2025-08-26 17:09:57,580] [INFO] Llama API result chars=210
+[2025-08-26 17:09:59,953] [INFO] Llama API response status=200
+[2025-08-26 17:09:59,953] [INFO] Llama API result chars=819
+[2025-08-26 17:10:01,462] [INFO] Using API type: llama for fix, prompt_len=1126
+[2025-08-26 17:10:04,371] [WARNING] Official Llama client failed for fix, falling back to requests
+[2025-08-26 17:10:04,371] [INFO] Fallback fix call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=1126
+[2025-08-26 17:10:07,792] [INFO] Llama API response status=200
+[2025-08-26 17:10:07,792] [INFO] Llama API result chars=819
+[2025-08-26 17:10:53,558] [INFO] Using API type: llama for prompt_len=67
+[2025-08-26 17:10:55,500] [INFO] Using API type: llama for prompt_len=67
+[2025-08-26 17:10:59,832] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:10:59,833] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=67
+[2025-08-26 17:11:02,277] [INFO] Llama API response status=200
+[2025-08-26 17:11:02,277] [INFO] Llama API result chars=44
+[2025-08-26 17:11:05,491] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:11:05,491] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=67
+[2025-08-26 17:11:06,114] [INFO] Llama API response status=200
+[2025-08-26 17:11:06,114] [INFO] Llama API result chars=44
+[2025-08-26 17:11:10,062] [INFO] Using API type: llama for fix, prompt_len=387
+[2025-08-26 17:11:17,443] [WARNING] Official Llama client failed for fix, falling back to requests
+[2025-08-26 17:11:17,443] [INFO] Fallback fix call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=387
+[2025-08-26 17:11:21,204] [INFO] Llama API response status=200
+[2025-08-26 17:11:21,204] [INFO] Llama API result chars=44
+[2025-08-26 17:12:24,219] [INFO] Using API type: llama for prompt_len=44
+[2025-08-26 17:12:25,039] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:12:25,039] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=44
+[2025-08-26 17:12:25,785] [INFO] Llama API response status=200
+[2025-08-26 17:12:25,785] [INFO] Llama API result chars=38
+[2025-08-26 17:15:50,652] [INFO] Using API type: llama for prompt_len=32
+[2025-08-26 17:15:53,894] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:15:53,894] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=32
+[2025-08-26 17:15:56,505] [INFO] Llama API response status=200
+[2025-08-26 17:15:56,505] [INFO] Llama API result chars=268
+[2025-08-26 17:17:52,990] [INFO] Using API type: llama for prompt_len=32
+[2025-08-26 17:17:54,779] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:17:54,779] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=32
+[2025-08-26 17:17:56,594] [INFO] Llama API response status=200
+[2025-08-26 17:17:56,594] [INFO] Llama API result chars=187
+[2025-08-26 17:18:42,641] [INFO] Using API type: llama for prompt_len=15
+[2025-08-26 17:18:43,598] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:18:43,598] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=15
+[2025-08-26 17:18:45,346] [INFO] Llama API response status=200
+[2025-08-26 17:18:45,346] [INFO] Llama API result chars=79
+[2025-08-26 17:19:30,950] [INFO] Using API type: llama for prompt_len=66
+[2025-08-26 17:19:32,384] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:19:32,384] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=66
+[2025-08-26 17:19:33,402] [INFO] Llama API response status=200
+[2025-08-26 17:19:33,402] [INFO] Llama API result chars=90
+[2025-08-26 17:27:24,344] [INFO] Using API type: llama for prompt_len=89
+[2025-08-26 17:27:26,052] [INFO] Using API type: llama for prompt_len=89
+[2025-08-26 17:27:26,848] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:27:26,848] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=89
+[2025-08-26 17:27:29,483] [INFO] Llama API response status=200
+[2025-08-26 17:27:29,484] [INFO] Llama API result chars=132
+[2025-08-26 17:27:30,072] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:27:30,073] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=89
+[2025-08-26 17:27:33,478] [INFO] Llama API response status=200
+[2025-08-26 17:27:33,479] [INFO] Llama API result chars=466
+[2025-08-26 17:50:08,470] [INFO] Using API type: llama for prompt_len=39
+[2025-08-26 17:50:09,323] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 17:50:09,323] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=39
+[2025-08-26 17:50:09,953] [INFO] Llama API response status=200
+[2025-08-26 17:50:09,953] [INFO] Llama API result chars=42
+[2025-08-26 21:38:24,017] [INFO] Using API type: llama for prompt_len=26
+[2025-08-26 21:38:24,940] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 21:38:24,940] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=26
+[2025-08-26 21:38:25,815] [INFO] Llama API response status=200
+[2025-08-26 21:38:25,816] [INFO] Llama API result chars=28
+[2025-08-26 21:39:05,634] [INFO] Using API type: llama for prompt_len=32
+[2025-08-26 21:39:15,355] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-26 21:39:15,355] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=32
+[2025-08-26 21:39:18,653] [INFO] Llama API response status=200
+[2025-08-26 21:39:18,653] [INFO] Llama API result chars=117

@@ -1,0 +1,7 @@
+ply
+pytest
+requests
+python-dotenv
+psutil
+llama-api-client
+openai

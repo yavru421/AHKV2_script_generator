@@ -1,0 +1,457 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COLON
+    COMMENT
+    LBRACE
+    MSGBOX
+    RBRACE
+    RETURN
+
+Grammar
+
+Rule 0     S' -> script
+Rule 1     script -> lines
+Rule 2     lines -> line
+Rule 3     lines -> lines line
+Rule 4     line -> HOTSTRING STRING NEWLINE
+Rule 5     line -> HOTKEY SEND STRING NEWLINE
+Rule 6     line -> HOTKEY RUN STRING NEWLINE
+Rule 7     line -> HOTKEY NEWLINE
+Rule 8     line -> IF condition NEWLINE
+Rule 9     line -> ELSE NEWLINE
+Rule 10    line -> LOOP NEWLINE
+Rule 11    line -> GUI NEWLINE
+Rule 12    line -> NEWLINE
+Rule 13    line -> IDENT NEWLINE
+Rule 14    line -> STRING NEWLINE
+Rule 15    condition -> IDENT
+Rule 16    condition -> IDENT NUMBER
+
+Terminals, with rules where they appear
+
+COLON                : 
+COMMENT              : 
+ELSE                 : 9
+GUI                  : 11
+HOTKEY               : 5 6 7
+HOTSTRING            : 4
+IDENT                : 13 15 16
+IF                   : 8
+LBRACE               : 
+LOOP                 : 10
+MSGBOX               : 
+NEWLINE              : 4 5 6 7 8 9 10 11 12 13 14
+NUMBER               : 16
+RBRACE               : 
+RETURN               : 
+RUN                  : 6
+SEND                 : 5
+STRING               : 4 5 6 14
+error                : 
+
+Nonterminals, with rules where they appear
+
+condition            : 8
+line                 : 2 3
+lines                : 1 3
+script               : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . script
+    (1) script -> . lines
+    (2) lines -> . line
+    (3) lines -> . lines line
+    (4) line -> . HOTSTRING STRING NEWLINE
+    (5) line -> . HOTKEY SEND STRING NEWLINE
+    (6) line -> . HOTKEY RUN STRING NEWLINE
+    (7) line -> . HOTKEY NEWLINE
+    (8) line -> . IF condition NEWLINE
+    (9) line -> . ELSE NEWLINE
+    (10) line -> . LOOP NEWLINE
+    (11) line -> . GUI NEWLINE
+    (12) line -> . NEWLINE
+    (13) line -> . IDENT NEWLINE
+    (14) line -> . STRING NEWLINE
+
+    HOTSTRING       shift and go to state 4
+    HOTKEY          shift and go to state 7
+    IF              shift and go to state 8
+    ELSE            shift and go to state 9
+    LOOP            shift and go to state 10
+    GUI             shift and go to state 11
+    NEWLINE         shift and go to state 6
+    IDENT           shift and go to state 12
+    STRING          shift and go to state 5
+
+    script                         shift and go to state 1
+    lines                          shift and go to state 2
+    line                           shift and go to state 3
+
+state 1
+
+    (0) S' -> script .
+
+
+
+state 2
+
+    (1) script -> lines .
+    (3) lines -> lines . line
+    (4) line -> . HOTSTRING STRING NEWLINE
+    (5) line -> . HOTKEY SEND STRING NEWLINE
+    (6) line -> . HOTKEY RUN STRING NEWLINE
+    (7) line -> . HOTKEY NEWLINE
+    (8) line -> . IF condition NEWLINE
+    (9) line -> . ELSE NEWLINE
+    (10) line -> . LOOP NEWLINE
+    (11) line -> . GUI NEWLINE
+    (12) line -> . NEWLINE
+    (13) line -> . IDENT NEWLINE
+    (14) line -> . STRING NEWLINE
+
+    $end            reduce using rule 1 (script -> lines .)
+    HOTSTRING       shift and go to state 4
+    HOTKEY          shift and go to state 7
+    IF              shift and go to state 8
+    ELSE            shift and go to state 9
+    LOOP            shift and go to state 10
+    GUI             shift and go to state 11
+    NEWLINE         shift and go to state 6
+    IDENT           shift and go to state 12
+    STRING          shift and go to state 5
+
+    line                           shift and go to state 13
+
+state 3
+
+    (2) lines -> line .
+
+    HOTSTRING       reduce using rule 2 (lines -> line .)
+    HOTKEY          reduce using rule 2 (lines -> line .)
+    IF              reduce using rule 2 (lines -> line .)
+    ELSE            reduce using rule 2 (lines -> line .)
+    LOOP            reduce using rule 2 (lines -> line .)
+    GUI             reduce using rule 2 (lines -> line .)
+    NEWLINE         reduce using rule 2 (lines -> line .)
+    IDENT           reduce using rule 2 (lines -> line .)
+    STRING          reduce using rule 2 (lines -> line .)
+    $end            reduce using rule 2 (lines -> line .)
+
+
+state 4
+
+    (4) line -> HOTSTRING . STRING NEWLINE
+
+    STRING          shift and go to state 14
+
+
+state 5
+
+    (14) line -> STRING . NEWLINE
+
+    NEWLINE         shift and go to state 15
+
+
+state 6
+
+    (12) line -> NEWLINE .
+
+    HOTSTRING       reduce using rule 12 (line -> NEWLINE .)
+    HOTKEY          reduce using rule 12 (line -> NEWLINE .)
+    IF              reduce using rule 12 (line -> NEWLINE .)
+    ELSE            reduce using rule 12 (line -> NEWLINE .)
+    LOOP            reduce using rule 12 (line -> NEWLINE .)
+    GUI             reduce using rule 12 (line -> NEWLINE .)
+    NEWLINE         reduce using rule 12 (line -> NEWLINE .)
+    IDENT           reduce using rule 12 (line -> NEWLINE .)
+    STRING          reduce using rule 12 (line -> NEWLINE .)
+    $end            reduce using rule 12 (line -> NEWLINE .)
+
+
+state 7
+
+    (5) line -> HOTKEY . SEND STRING NEWLINE
+    (6) line -> HOTKEY . RUN STRING NEWLINE
+    (7) line -> HOTKEY . NEWLINE
+
+    SEND            shift and go to state 16
+    RUN             shift and go to state 18
+    NEWLINE         shift and go to state 17
+
+
+state 8
+
+    (8) line -> IF . condition NEWLINE
+    (15) condition -> . IDENT
+    (16) condition -> . IDENT NUMBER
+
+    IDENT           shift and go to state 20
+
+    condition                      shift and go to state 19
+
+state 9
+
+    (9) line -> ELSE . NEWLINE
+
+    NEWLINE         shift and go to state 21
+
+
+state 10
+
+    (10) line -> LOOP . NEWLINE
+
+    NEWLINE         shift and go to state 22
+
+
+state 11
+
+    (11) line -> GUI . NEWLINE
+
+    NEWLINE         shift and go to state 23
+
+
+state 12
+
+    (13) line -> IDENT . NEWLINE
+
+    NEWLINE         shift and go to state 24
+
+
+state 13
+
+    (3) lines -> lines line .
+
+    HOTSTRING       reduce using rule 3 (lines -> lines line .)
+    HOTKEY          reduce using rule 3 (lines -> lines line .)
+    IF              reduce using rule 3 (lines -> lines line .)
+    ELSE            reduce using rule 3 (lines -> lines line .)
+    LOOP            reduce using rule 3 (lines -> lines line .)
+    GUI             reduce using rule 3 (lines -> lines line .)
+    NEWLINE         reduce using rule 3 (lines -> lines line .)
+    IDENT           reduce using rule 3 (lines -> lines line .)
+    STRING          reduce using rule 3 (lines -> lines line .)
+    $end            reduce using rule 3 (lines -> lines line .)
+
+
+state 14
+
+    (4) line -> HOTSTRING STRING . NEWLINE
+
+    NEWLINE         shift and go to state 25
+
+
+state 15
+
+    (14) line -> STRING NEWLINE .
+
+    HOTSTRING       reduce using rule 14 (line -> STRING NEWLINE .)
+    HOTKEY          reduce using rule 14 (line -> STRING NEWLINE .)
+    IF              reduce using rule 14 (line -> STRING NEWLINE .)
+    ELSE            reduce using rule 14 (line -> STRING NEWLINE .)
+    LOOP            reduce using rule 14 (line -> STRING NEWLINE .)
+    GUI             reduce using rule 14 (line -> STRING NEWLINE .)
+    NEWLINE         reduce using rule 14 (line -> STRING NEWLINE .)
+    IDENT           reduce using rule 14 (line -> STRING NEWLINE .)
+    STRING          reduce using rule 14 (line -> STRING NEWLINE .)
+    $end            reduce using rule 14 (line -> STRING NEWLINE .)
+
+
+state 16
+
+    (5) line -> HOTKEY SEND . STRING NEWLINE
+
+    STRING          shift and go to state 26
+
+
+state 17
+
+    (7) line -> HOTKEY NEWLINE .
+
+    HOTSTRING       reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    HOTKEY          reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    IF              reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    ELSE            reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    LOOP            reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    GUI             reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    NEWLINE         reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    IDENT           reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    STRING          reduce using rule 7 (line -> HOTKEY NEWLINE .)
+    $end            reduce using rule 7 (line -> HOTKEY NEWLINE .)
+
+
+state 18
+
+    (6) line -> HOTKEY RUN . STRING NEWLINE
+
+    STRING          shift and go to state 27
+
+
+state 19
+
+    (8) line -> IF condition . NEWLINE
+
+    NEWLINE         shift and go to state 28
+
+
+state 20
+
+    (15) condition -> IDENT .
+    (16) condition -> IDENT . NUMBER
+
+    NEWLINE         reduce using rule 15 (condition -> IDENT .)
+    NUMBER          shift and go to state 29
+
+
+state 21
+
+    (9) line -> ELSE NEWLINE .
+
+    HOTSTRING       reduce using rule 9 (line -> ELSE NEWLINE .)
+    HOTKEY          reduce using rule 9 (line -> ELSE NEWLINE .)
+    IF              reduce using rule 9 (line -> ELSE NEWLINE .)
+    ELSE            reduce using rule 9 (line -> ELSE NEWLINE .)
+    LOOP            reduce using rule 9 (line -> ELSE NEWLINE .)
+    GUI             reduce using rule 9 (line -> ELSE NEWLINE .)
+    NEWLINE         reduce using rule 9 (line -> ELSE NEWLINE .)
+    IDENT           reduce using rule 9 (line -> ELSE NEWLINE .)
+    STRING          reduce using rule 9 (line -> ELSE NEWLINE .)
+    $end            reduce using rule 9 (line -> ELSE NEWLINE .)
+
+
+state 22
+
+    (10) line -> LOOP NEWLINE .
+
+    HOTSTRING       reduce using rule 10 (line -> LOOP NEWLINE .)
+    HOTKEY          reduce using rule 10 (line -> LOOP NEWLINE .)
+    IF              reduce using rule 10 (line -> LOOP NEWLINE .)
+    ELSE            reduce using rule 10 (line -> LOOP NEWLINE .)
+    LOOP            reduce using rule 10 (line -> LOOP NEWLINE .)
+    GUI             reduce using rule 10 (line -> LOOP NEWLINE .)
+    NEWLINE         reduce using rule 10 (line -> LOOP NEWLINE .)
+    IDENT           reduce using rule 10 (line -> LOOP NEWLINE .)
+    STRING          reduce using rule 10 (line -> LOOP NEWLINE .)
+    $end            reduce using rule 10 (line -> LOOP NEWLINE .)
+
+
+state 23
+
+    (11) line -> GUI NEWLINE .
+
+    HOTSTRING       reduce using rule 11 (line -> GUI NEWLINE .)
+    HOTKEY          reduce using rule 11 (line -> GUI NEWLINE .)
+    IF              reduce using rule 11 (line -> GUI NEWLINE .)
+    ELSE            reduce using rule 11 (line -> GUI NEWLINE .)
+    LOOP            reduce using rule 11 (line -> GUI NEWLINE .)
+    GUI             reduce using rule 11 (line -> GUI NEWLINE .)
+    NEWLINE         reduce using rule 11 (line -> GUI NEWLINE .)
+    IDENT           reduce using rule 11 (line -> GUI NEWLINE .)
+    STRING          reduce using rule 11 (line -> GUI NEWLINE .)
+    $end            reduce using rule 11 (line -> GUI NEWLINE .)
+
+
+state 24
+
+    (13) line -> IDENT NEWLINE .
+
+    HOTSTRING       reduce using rule 13 (line -> IDENT NEWLINE .)
+    HOTKEY          reduce using rule 13 (line -> IDENT NEWLINE .)
+    IF              reduce using rule 13 (line -> IDENT NEWLINE .)
+    ELSE            reduce using rule 13 (line -> IDENT NEWLINE .)
+    LOOP            reduce using rule 13 (line -> IDENT NEWLINE .)
+    GUI             reduce using rule 13 (line -> IDENT NEWLINE .)
+    NEWLINE         reduce using rule 13 (line -> IDENT NEWLINE .)
+    IDENT           reduce using rule 13 (line -> IDENT NEWLINE .)
+    STRING          reduce using rule 13 (line -> IDENT NEWLINE .)
+    $end            reduce using rule 13 (line -> IDENT NEWLINE .)
+
+
+state 25
+
+    (4) line -> HOTSTRING STRING NEWLINE .
+
+    HOTSTRING       reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    HOTKEY          reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    IF              reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    ELSE            reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    LOOP            reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    GUI             reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    NEWLINE         reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    IDENT           reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    STRING          reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+    $end            reduce using rule 4 (line -> HOTSTRING STRING NEWLINE .)
+
+
+state 26
+
+    (5) line -> HOTKEY SEND STRING . NEWLINE
+
+    NEWLINE         shift and go to state 30
+
+
+state 27
+
+    (6) line -> HOTKEY RUN STRING . NEWLINE
+
+    NEWLINE         shift and go to state 31
+
+
+state 28
+
+    (8) line -> IF condition NEWLINE .
+
+    HOTSTRING       reduce using rule 8 (line -> IF condition NEWLINE .)
+    HOTKEY          reduce using rule 8 (line -> IF condition NEWLINE .)
+    IF              reduce using rule 8 (line -> IF condition NEWLINE .)
+    ELSE            reduce using rule 8 (line -> IF condition NEWLINE .)
+    LOOP            reduce using rule 8 (line -> IF condition NEWLINE .)
+    GUI             reduce using rule 8 (line -> IF condition NEWLINE .)
+    NEWLINE         reduce using rule 8 (line -> IF condition NEWLINE .)
+    IDENT           reduce using rule 8 (line -> IF condition NEWLINE .)
+    STRING          reduce using rule 8 (line -> IF condition NEWLINE .)
+    $end            reduce using rule 8 (line -> IF condition NEWLINE .)
+
+
+state 29
+
+    (16) condition -> IDENT NUMBER .
+
+    NEWLINE         reduce using rule 16 (condition -> IDENT NUMBER .)
+
+
+state 30
+
+    (5) line -> HOTKEY SEND STRING NEWLINE .
+
+    HOTSTRING       reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    HOTKEY          reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    IF              reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    ELSE            reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    LOOP            reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    GUI             reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    NEWLINE         reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    IDENT           reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    STRING          reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+    $end            reduce using rule 5 (line -> HOTKEY SEND STRING NEWLINE .)
+
+
+state 31
+
+    (6) line -> HOTKEY RUN STRING NEWLINE .
+
+    HOTSTRING       reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    HOTKEY          reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    IF              reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    ELSE            reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    LOOP            reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    GUI             reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    NEWLINE         reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    IDENT           reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    STRING          reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+    $end            reduce using rule 6 (line -> HOTKEY RUN STRING NEWLINE .)
+
