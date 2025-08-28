@@ -1,0 +1,12 @@
+{
+  "name": "git_tool",
+  "description": "Run git commands for version control",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "command": {"type": "string", "description": "Git command (clone, commit, push, pull, etc.)"},
+      "args": {"type": "array", "items": {"type": "string"}, "description": "Arguments for the git command"}
+    },
+    "required": ["command"]
+  }
+}

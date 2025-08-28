@@ -1,0 +1,13 @@
+{
+  "name": "notepad_tool",
+  "description": "Open or edit files using Notepad (Windows)",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "file_path": {"type": "string", "description": "Path to the file to open or edit"},
+      "action": {"type": "string", "description": "Action (open, edit, save)"},
+      "content": {"type": "string", "description": "Content to write (for save)"}
+    },
+    "required": ["file_path", "action"]
+  }
+}

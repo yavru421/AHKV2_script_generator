@@ -1,0 +1,19 @@
+{
+  "type": "function",
+  "function": {
+    "name": "generate_ahk_code",
+    "description": "Generate an AutoHotkey v2 script from a natural language prompt.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "A natural language description of the desired AHK v2 script."
+        }
+      },
+      "required": ["prompt"],
+      "additionalProperties": false
+    },
+    "strict": true
+  }
+}

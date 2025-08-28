@@ -1,0 +1,16 @@
+{
+  "name": "filesystem_tool",
+  "description": "Manage files/folders inside the model sandbox (safe, confined). Supports: write, append, read, list, mkdir, delete, manifest_update.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {"type": "string", "enum": ["write", "append", "read", "list", "mkdir", "delete", "manifest_update"], "description": "Filesystem action to perform."},
+      "path": {"type": "string", "description": "Relative path inside sandbox (for file or directory)."},
+      "content": {"type": "string", "description": "Content for write/append."},
+      "pattern": {"type": "string", "description": "Optional glob pattern for list."},
+      "recursive": {"type": "boolean", "description": "List directories recursively (list action)."}
+    },
+    "required": ["action"],
+    "additionalProperties": false
+  }
+}

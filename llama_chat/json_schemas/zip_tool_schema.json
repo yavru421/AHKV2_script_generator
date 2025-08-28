@@ -1,0 +1,13 @@
+{
+  "name": "zip_tool",
+  "description": "Run zip/unzip for archiving and extracting files",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "operation": {"type": "string", "description": "Operation (zip, unzip, tar, etc.)"},
+      "input_files": {"type": "array", "items": {"type": "string"}, "description": "Files to archive or extract"},
+      "output_file": {"type": "string", "description": "Path to save archive or extract to"}
+    },
+    "required": ["operation", "input_files", "output_file"]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "imagemagick_tool",
+  "description": "Run ImageMagick for image conversion and processing",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "input_file": {"type": "string", "description": "Path to input image file"},
+      "output_file": {"type": "string", "description": "Path to save processed image"},
+      "operation": {"type": "string", "description": "Image operation (resize, crop, convert, annotate, etc.)"},
+      "operation_args": {"type": "array", "items": {"type": "string"}, "description": "Arguments for the operation (e.g., dimensions, text)"}
+    },
+    "required": ["input_file", "output_file", "operation"]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "pdftk_tool",
+  "description": "Run pdftk for PDF manipulation (merge, split, convert)",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "operation": {"type": "string", "description": "Operation (merge, split, burst, cat, etc.)"},
+      "input_files": {"type": "array", "items": {"type": "string"}, "description": "PDF files to process"},
+      "output_file": {"type": "string", "description": "Path to save output PDF"},
+      "options": {"type": "array", "items": {"type": "string"}, "description": "Additional pdftk options (optional)"}
+    },
+    "required": ["operation", "input_files", "output_file"]
+  }
+}

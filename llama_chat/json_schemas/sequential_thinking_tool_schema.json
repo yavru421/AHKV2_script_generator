@@ -1,0 +1,20 @@
+{
+  "name": "sequential_thinking_tool",
+  "description": "A tool for step-by-step, chain-of-thought, or sequential reasoning. Accepts a list of thoughts and returns the next step or a solution.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "thoughts": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "List of previous thoughts or reasoning steps."
+      },
+      "context": {
+        "type": "string",
+        "description": "Optional context or problem statement."
+      }
+    },
+    "required": ["thoughts"],
+    "additionalProperties": false
+  }
+}
