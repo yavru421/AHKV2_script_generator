@@ -38,3 +38,10 @@
 [2025-08-27 21:47:47,631] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=77
 [2025-08-27 21:47:48,389] [INFO] Llama API response status=200
 [2025-08-27 21:47:48,389] [INFO] Llama API result chars=32
+[2025-08-28 03:05:54,160] [WARNING] LOCKDOWN: Detected 3 v1 syntax violations. Auto-converting...
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 3: v1 comma syntax - MsgBox, Hello World
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 4: v1 comma syntax - Send, {Enter}
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 5: v1 comma syntax - Sleep, 1000
+[2025-08-28 03:06:45,190] [WARNING] LOCKDOWN: Detected 2 v1 syntax violations. Auto-converting...
+[2025-08-28 03:06:45,190] [INFO] LOCKDOWN violation: Line 3: v1 comma syntax - MsgBox, This is v1 syntax
+[2025-08-28 03:06:45,190] [INFO] LOCKDOWN violation: Line 5: v1 comma syntax - Send, {Tab}

@@ -172,6 +172,21 @@ class FullAHKApp(tk.Tk):
         if not prompt:
             messagebox.showerror("Error", "Please enter a prompt.")
             return
+        
+        # LOCKDOWN: Mandatory user confirmation before code generation
+        proceed = messagebox.askyesno(
+            "AHK v2 Lockdown Confirmation", 
+            f"You are about to generate AutoHotkey v2 code for:\n\n\"{prompt}\"\n\n"
+            "This system is locked down to prevent v1/v2 syntax mixing.\n"
+            "Only valid AutoHotkey v2 syntax will be generated.\n\n"
+            "Do you want to proceed with code generation?",
+            icon='question'
+        )
+        
+        if not proceed:
+            self.gen_status.set("Generation cancelled by user")
+            return
+            
         self.last_prompt = prompt  # Store for potential fixing
         self.gen_status.set("Generating...")
         self.generated_code.delete('1.0', tk.END)

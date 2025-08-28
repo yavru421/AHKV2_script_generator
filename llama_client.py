@@ -110,15 +110,39 @@ def build_payload(prompt: str, api_url: str, model: str) -> Dict[str, Any]:
         }
     return data
 
-# -------------------------- Lockdown Helpers --------------------------
-V1_COMMAND_PATTERN = re.compile(r"\b(MsgBox|Send|SoundSet|SoundGet|TrayTip|Sleep|Run|Click|WinActivate|WinClose|WinMove)\s*,", re.IGNORECASE)
+# Enhanced v1 syntax detection patterns
+V1_COMMAND_PATTERN = re.compile(r"\b(MsgBox|Send|SoundSet|SoundGet|TrayTip|Sleep|Run|Click|WinActivate|WinClose|WinMove|IfWinActive|IfWinExist|StringReplace|StringSplit|StringLen|SetWorkingDir|FileSelectFile|FileSelectFolder|Transform)\s*,", re.IGNORECASE)
+V1_LOOP_PATTERN = re.compile(r"\bLoop\s*,\s*(Parse|Read|Files)", re.IGNORECASE)
+V1_LEGACY_FUNCS = re.compile(r"\b(SetEnv|EnvGet|EnvSet|EnvAdd|EnvSub|EnvMult|EnvDiv|WinGetActiveTitle|WinGetActiveStats)\b", re.IGNORECASE)
 
 def detect_v1_syntax(code: str) -> List[str]:
-    """Return list of legacy v1-style command lines found (comma invocation style)."""
+    """Enhanced detection of legacy v1-style syntax patterns."""
     findings = []
     for ln, line in enumerate(code.splitlines(), 1):
+        stripped_line = line.strip()
+        
+        # Skip comments and empty lines
+        if not stripped_line or stripped_line.startswith(';'):
+            continue
+            
+        # Check for comma-based command syntax
         if V1_COMMAND_PATTERN.search(line):
-            findings.append(f"Line {ln}: {line.strip()}")
+            findings.append(f"Line {ln}: v1 comma syntax - {stripped_line}")
+            
+        # Check for v1 loop syntax
+        if V1_LOOP_PATTERN.search(line):
+            findings.append(f"Line {ln}: v1 loop syntax - {stripped_line}")
+            
+        # Check for legacy functions that don't exist in v2
+        if V1_LEGACY_FUNCS.search(line):
+            findings.append(f"Line {ln}: v1-only function - {stripped_line}")
+            
+        # Check for legacy variable assignment patterns
+        if re.search(r"^\s*\w+\s*=\s*[^=]", line) and not re.search(r":=|==|!=|<=|>=", line):
+            # This might be legacy assignment, but be careful with expressions
+            if not re.search(r"(if\s+|while\s+|\(|\))", line, re.IGNORECASE):
+                findings.append(f"Line {ln}: possible v1 assignment syntax - {stripped_line}")
+    
     return findings
 
 def ensure_v2_directive(code: str) -> str:
@@ -158,23 +182,45 @@ def basic_auto_convert_v1_to_v2(code: str) -> Tuple[str, List[str]]:
     return new_code, changes
 
 def sanitize_generation(prompt: str, code: str) -> str:
-    """Enforce v2: add directive, convert legacy, and append comment with applied changes."""
+    """LOCKDOWN: Enforce v2 syntax, detect/convert legacy patterns, validate results."""
     original = code
     code = ensure_v2_directive(code)
     findings = detect_v1_syntax(code)
     all_changes: List[str] = []
+    
     if findings:
-        logger.warning(f"Detected legacy v1 syntax in generation ({len(findings)} lines). Auto-converting.")
+        logger.warning(f"LOCKDOWN: Detected {len(findings)} v1 syntax violations. Auto-converting...")
+        # Log the specific violations for debugging
+        for finding in findings:
+            logger.info(f"LOCKDOWN violation: {finding}")
+            
         code, changes = basic_auto_convert_v1_to_v2(code)
         all_changes.extend(changes)
+        
         # Re-check after conversion
-        if detect_v1_syntax(code):
-            # Still present -> mark visibly
-            code = (
-                "; WARNING: Residual legacy syntax could not be auto-converted fully. Review manually.\n" + code
-            )
+        remaining_findings = detect_v1_syntax(code)
+        if remaining_findings:
+            logger.error(f"LOCKDOWN: {len(remaining_findings)} v1 patterns could not be auto-converted!")
+            # Still present -> mark visibly with detailed warnings
+            warning_header = [
+                "; ⚠️  LOCKDOWN WARNING: Residual v1 syntax detected!",
+                "; The following patterns could not be auto-converted and need manual review:",
+            ]
+            for finding in remaining_findings:
+                warning_header.append(f"; {finding}")
+            warning_header.append("; Please manually convert these to v2 syntax.")
+            warning_header.append("")
+            
+            code = "\n".join(warning_header) + code
+            
     if all_changes:
-        code = "; Auto conversions: " + ", ".join(sorted(set(all_changes))) + "\n" + code
+        change_header = [
+            "; ✅ LOCKDOWN: Auto-conversions applied:",
+        ]
+        for change in sorted(set(all_changes)):
+            change_header.append(f"; - {change}")
+        change_header.append("")
+        code = "\n".join(change_header) + code
     # Final validation (best-effort) using strict validator if available
     try:
         from AHK_Validator import validate_ahk_script as _strict_validate
@@ -624,33 +670,35 @@ Return ONLY the corrected AutoHotkey v2 code with proper syntax."""
 
     result = sanitize_generation(original_prompt, result)
     return result
+
+def _fallback_generate(prompt: str) -> str:
+    """Heuristic offline fallback so user still gets something if API fails."""
     p = prompt.lower()
     lines = [
         "; Auto-generated fallback AHK v2 script (no API)",
         "#Requires AutoHotkey v2.0",
-        "#SingleInstance Force",
-        "; Fallback generator enforces pure v2 syntax (no legacy commas)",
+        "#SingleInstance Force"
     ]
-    """Heuristic offline fallback so user still gets something if API fails."""
-    p = prompt.lower()
-    lines = ["; Auto-generated fallback AHK v2 script (no API)", "#Requires AutoHotkey v2.0", "#SingleInstance Force"]
-            "^!WheelUp:: Send('{Volume_Up}')",
-            "^!WheelDown:: Send('{Volume_Down}')",
+    
+    if 'volume' in p and 'scroll' in p:
+        lines += [
             "; Control volume with Ctrl+Alt + Mouse Wheel",
             "^!WheelUp::Send '{Volume_Up}'",
-            "^!WheelDown::Send '{Volume_Down}'",
+            "^!WheelDown::Send '{Volume_Down}'"
         ]
+    
+    if 'mute' in p:
+        lines += [
+            "; Toggle mute with Ctrl+Alt+M",
             "^!m:: {",
             "    SoundSetMute(-1)",
-            "    TrayTip('Audio', 'Mute toggled')",
-            "}",
-            "    SoundSetMute -1",
-            "    TrayTip 'Audio', 'Mute toggled', 1000",
+            "    TrayTip('Audio', 'Mute toggled', 1000)",
             "}"
         ]
+    
     if 'clipboard' in p:
         lines += [
-            "    txt := A_Clipboard",
+            "; Simple clipboard history (stores last 10 entries)",
             "global ClipHist := []",
             "^!c:: {",
             "    txt := A_Clipboard",
@@ -662,31 +710,31 @@ Return ONLY the corrected AutoHotkey v2 code with proper syntax."""
             "}",
             "^!v:: {",
             "    if ClipHist.Length() = 0 return",
-            "    Gui gui: New +AlwaysOnTop -Resize",
+            "    gui := Gui('+AlwaysOnTop -Resize')",
             "    gui.Add('Text',, 'Select clipboard item:')",
             "    lb := gui.Add('ListBox','vPick w300 h200', ClipHist)",
             "    gui.Add('Button','Default','Paste')",
             "    gui.OnEvent('Close', (*) => gui.Destroy())",
             "    gui.OnEvent('Escape', (*) => gui.Destroy())",
-            "    gui.OnEvent('Click', (*) => {",
-            "            Send('^v')",
+            "    gui['Paste'].OnEvent('Click', (*) => {",
+            "        val := lb.Text",
             "        if val != '' {",
             "            A_Clipboard := val",
-            "            Send '^v'",
+            "            Send('^v')",
             "        }",
             "        gui.Destroy()",
             "    })",
             "    gui.Show()",
             "}"
         ]
+    
     if len(lines) <= 3:  # Nothing matched
-            "^!h:: MsgBox('Hello from fallback generator!')"
+        lines += [
             "; Unable to infer specific intent, provide skeleton.",
             "; Hotkey example: Ctrl+Alt+H shows a message box.",
-    script = '\n'.join(lines)
-    script = sanitize_generation(prompt, script)
-    return script
+            "^!h::MsgBox('Hello from fallback generator!')"
         ]
+    
     lines.append("; End of fallback script")
     return '\n'.join(lines)
 
