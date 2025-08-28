@@ -361,15 +361,15 @@ def generate_ahk_code_openai(prompt: str) -> str:
             logger.info(f"OpenAI-compatible result chars={len(code)}")
 
         # Strip Markdown fences if present
-    if code.startswith('```'):
+        if code.startswith('```'):
             parts = code.split('\n')
             if parts and parts[0].startswith('```'):
                 parts = parts[1:]
             while parts and parts[-1].strip() in ('```', ''):
                 parts = parts[:-1]
             code = '\n'.join(parts).strip()
-    code = sanitize_generation(prompt, code)
-    return code or "[ERROR] Empty response from API."
+        code = sanitize_generation(prompt, code)
+        return code or "[ERROR] Empty response from API."
 
     except Exception as e:
         logger.error(f"OpenAI-compatible client error: {e}")
