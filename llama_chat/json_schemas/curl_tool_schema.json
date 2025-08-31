@@ -1,0 +1,15 @@
+{
+  "name": "curl_tool",
+  "description": "Run curl to download files or make HTTP requests",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "url": {"type": "string", "description": "URL to fetch"},
+      "output_file": {"type": "string", "description": "Path to save output (optional)"},
+      "method": {"type": "string", "description": "HTTP method (GET, POST, etc.)"},
+      "headers": {"type": "array", "items": {"type": "string"}, "description": "HTTP headers (optional)"},
+      "data": {"type": "string", "description": "Data to send in request body (optional)"}
+    },
+    "required": ["url"]
+  }
+}

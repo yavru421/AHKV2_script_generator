@@ -2,7 +2,7 @@ import os
 import logging
 import re
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, List, Tuple
 
 # Try to import clients
 try:
@@ -81,25 +81,162 @@ def get_api_type() -> str:
     return "llama"
 
 def build_payload(prompt: str, api_url: str, model: str) -> Dict[str, Any]:
-    """Build the payload for the Llama API call."""
+    """Build the payload for the Llama API call with hardened anti-v1 instructions."""
+    v2_system = (
+        "You are an AutoHotkey v2 scripting specialist. OUTPUT MUST BE STRICT AutoHotkey v2. "
+        "Hard requirements: (1) Begin with '#Requires AutoHotkey v2.0' (2) Use ONLY function syntax for former v1 commands: MsgBox(''), Send(''), TrayTip('title','text'), SoundSetMute(-1), SoundGetMute(), SoundSetVolume(n), SoundGetVolume(). "
+        "(3) NEVER use legacy comma command syntax like 'MsgBox,', 'Send,', 'SoundSet,' or 'SoundGet,'. "
+        "(4) Use braces { } for multi-line hotkey bodies. "
+        "If user asks for legacy syntax, UPGRADE it to v2 instead. Return ONLY code without explanations."
+    )
     if "/chat/completions" in api_url:
         data = {
             "model": model,
             "messages": [
-                {"role": "system", "content": "You are an AutoHotkey v2 scripting specialist. Generate ONLY AutoHotkey v2 syntax. Use parentheses for function calls like MsgBox('text'), Send('{key}'), SoundSetMute(-1). Use braces {} for hotkey bodies. No v1 comma syntax. Return only code."},
+                {"role": "system", "content": v2_system},
                 {"role": "user", "content": prompt}
             ],
             "max_tokens": MAX_TOKENS,
             "temperature": float(os.environ.get("LLAMA_TEMPERATURE", DEFAULT_TEMPERATURE))
         }
     else:
+        # In completion-style APIs put the full instruction into the prompt itself
         data = {
-            "prompt": f"Write an AutoHotkey v2 script for: {prompt}\nReturn only code.",
+            "prompt": (
+                f"{v2_system}\n\nUSER REQUEST: {prompt}\n\nReturn only AutoHotkey v2 code:"),
             "max_tokens": MAX_TOKENS,
             "temperature": float(os.environ.get("LLAMA_TEMPERATURE", DEFAULT_TEMPERATURE)),
             "stop": None
         }
     return data
+
+# Enhanced v1 syntax detection patterns
+V1_COMMAND_PATTERN = re.compile(r"\b(MsgBox|Send|SoundSet|SoundGet|TrayTip|Sleep|Run|Click|WinActivate|WinClose|WinMove|IfWinActive|IfWinExist|StringReplace|StringSplit|StringLen|SetWorkingDir|FileSelectFile|FileSelectFolder|Transform)\s*,", re.IGNORECASE)
+V1_LOOP_PATTERN = re.compile(r"\bLoop\s*,\s*(Parse|Read|Files)", re.IGNORECASE)
+V1_LEGACY_FUNCS = re.compile(r"\b(SetEnv|EnvGet|EnvSet|EnvAdd|EnvSub|EnvMult|EnvDiv|WinGetActiveTitle|WinGetActiveStats)\b", re.IGNORECASE)
+
+def detect_v1_syntax(code: str) -> List[str]:
+    """Enhanced detection of legacy v1-style syntax patterns."""
+    findings = []
+    for ln, line in enumerate(code.splitlines(), 1):
+        stripped_line = line.strip()
+        
+        # Skip comments and empty lines
+        if not stripped_line or stripped_line.startswith(';'):
+            continue
+            
+        # Check for comma-based command syntax
+        if V1_COMMAND_PATTERN.search(line):
+            findings.append(f"Line {ln}: v1 comma syntax - {stripped_line}")
+            
+        # Check for v1 loop syntax
+        if V1_LOOP_PATTERN.search(line):
+            findings.append(f"Line {ln}: v1 loop syntax - {stripped_line}")
+            
+        # Check for legacy functions that don't exist in v2
+        if V1_LEGACY_FUNCS.search(line):
+            findings.append(f"Line {ln}: v1-only function - {stripped_line}")
+            
+        # Check for legacy variable assignment patterns
+        if re.search(r"^\s*\w+\s*=\s*[^=]", line) and not re.search(r":=|==|!=|<=|>=", line):
+            # This might be legacy assignment, but be careful with expressions
+            if not re.search(r"(if\s+|while\s+|\(|\))", line, re.IGNORECASE):
+                findings.append(f"Line {ln}: possible v1 assignment syntax - {stripped_line}")
+    
+    return findings
+
+def ensure_v2_directive(code: str) -> str:
+    if not re.search(r"#Requires\s+AutoHotkey\s+v2", code, re.IGNORECASE):
+        return "#Requires AutoHotkey v2.0\n#SingleInstance Force\n" + code.lstrip()
+    return code
+
+def basic_auto_convert_v1_to_v2(code: str) -> Tuple[str, List[str]]:
+    """Lightweight conversions for most common legacy patterns. Returns (new_code, changes)."""
+    changes = []
+    # Toggle/Mute Sound patterns FIRST to avoid generic capture
+    conversions = [
+        # Sound toggles
+        (r"(?mi)^[ \t]*SoundSet,\s*\+?1\s*,\s*,\s*(Toggle|Mute|Unmute)\b.*$", "SoundSetMute(-1)", "SoundSet toggle/mute -> SoundSetMute(-1)"),
+        # Sound get mute / volume
+        (r"(?mi)^[ \t]*SoundGet,\s*(\w+)\s*,\s*Master\s*,\s*Mute\b.*$", r"\1 := SoundGetMute()", "SoundGet mute -> var := SoundGetMute()"),
+        (r"(?mi)^[ \t]*SoundGet,\s*(\w+)\s*,\s*Master\s*,\s*Volume\b.*$", r"\1 := SoundGetVolume()", "SoundGet volume -> var := SoundGetVolume()"),
+        # Generic core command rewrites
+        (r"(?mi)^[ \t]*MsgBox,\s*(.+)$", r"MsgBox(\1)", "MsgBox -> function"),
+        (r"(?mi)^[ \t]*Send,\s*(.+)$", r"Send(\1)", "Send -> function"),
+        (r"(?mi)^[ \t]*Sleep,\s*(\d+)\s*$", r"Sleep(\1)", "Sleep -> function"),
+        (r"(?mi)^[ \t]*Run,\s*(.+)$", r"Run(\1)", "Run -> function"),
+        (r"(?mi)^[ \t]*Click,\s*(.+)$", r"Click(\1)", "Click -> function"),
+        (r"(?mi)^[ \t]*WinActivate,\s*(.+)$", r"WinActivate(\1)", "WinActivate -> function"),
+        (r"(?mi)^[ \t]*TrayTip,\s*([^,\r\n]+)\s*,\s*([^,\r\n]+).*$", r"TrayTip(\1, \2)", "TrayTip -> function"),
+        # Remaining generic SoundSet (value based) -> SoundSetVolume(value)
+        (r"(?mi)^[ \t]*SoundSet,\s*([^,\r\n]+)\s*,.*$", r"SoundSetVolume(\1)", "SoundSet value -> SoundSetVolume()"),
+    ]
+    new_code = code
+    for pattern, repl, desc in conversions:
+        updated = re.sub(pattern, repl, new_code)
+        if updated != new_code:
+            new_code = updated
+            changes.append(desc)
+    # Normalize quotes to double quotes when we wrapped arguments
+    new_code = re.sub(r"MsgBox\('([^']*)'\)", r'MsgBox("\1")', new_code)
+    return new_code, changes
+
+def sanitize_generation(prompt: str, code: str) -> str:
+    """LOCKDOWN: Enforce v2 syntax, detect/convert legacy patterns, validate results."""
+    original = code
+    code = ensure_v2_directive(code)
+    findings = detect_v1_syntax(code)
+    all_changes: List[str] = []
+    
+    if findings:
+        logger.warning(f"LOCKDOWN: Detected {len(findings)} v1 syntax violations. Auto-converting...")
+        # Log the specific violations for debugging
+        for finding in findings:
+            logger.info(f"LOCKDOWN violation: {finding}")
+            
+        code, changes = basic_auto_convert_v1_to_v2(code)
+        all_changes.extend(changes)
+        
+        # Re-check after conversion
+        remaining_findings = detect_v1_syntax(code)
+        if remaining_findings:
+            logger.error(f"LOCKDOWN: {len(remaining_findings)} v1 patterns could not be auto-converted!")
+            # Still present -> mark visibly with detailed warnings
+            warning_header = [
+                "; ⚠️  LOCKDOWN WARNING: Residual v1 syntax detected!",
+                "; The following patterns could not be auto-converted and need manual review:",
+            ]
+            for finding in remaining_findings:
+                warning_header.append(f"; {finding}")
+            warning_header.append("; Please manually convert these to v2 syntax.")
+            warning_header.append("")
+            
+            code = "\n".join(warning_header) + code
+            
+    if all_changes:
+        change_header = [
+            "; ✅ LOCKDOWN: Auto-conversions applied:",
+        ]
+        for change in sorted(set(all_changes)):
+            change_header.append(f"; - {change}")
+        change_header.append("")
+        code = "\n".join(change_header) + code
+    # Final validation (best-effort) using strict validator if available
+    try:
+        from AHK_Validator import validate_ahk_script as _strict_validate
+        import io, sys
+        buff = io.StringIO()
+        old = sys.stdout
+        sys.stdout = buff
+        valid = _strict_validate(code)
+        sys.stdout = old
+        v_out = buff.getvalue().strip().replace('\n', ' | ')
+        if not valid:
+            logger.error(f"Post-generation validation failed: {v_out[:300]}")
+            code = f"; VALIDATION FAILED (auto conversion attempted) -> {v_out}\n" + code
+    except Exception as e:
+        logger.debug(f"Validator not applied: {e}")
+    return code
 
 def make_api_call(api_url: str, payload: Dict[str, Any], api_key: str) -> str:
     """Make the Llama API call."""
@@ -277,7 +414,7 @@ def generate_ahk_code_openai(prompt: str) -> str:
             while parts and parts[-1].strip() in ('```', ''):
                 parts = parts[:-1]
             code = '\n'.join(parts).strip()
-
+        code = sanitize_generation(prompt, code)
         return code or "[ERROR] Empty response from API."
 
     except Exception as e:
@@ -327,7 +464,7 @@ def generate_ahk_code_llama_official(prompt: str) -> str:
                 while parts and parts[-1].strip() in ('```', ''):
                     parts = parts[:-1]
                 code = '\n'.join(parts).strip()
-
+            code = sanitize_generation(prompt, code)
             return code or "[ERROR] Empty response from Llama API."
 
         return "[ERROR] Unexpected response format from official client."
@@ -375,7 +512,7 @@ def generate_ahk_code(prompt: str) -> str:
     if result.startswith('[ERROR]'):
         fb = _fallback_generate(prompt)
         return fb + "\n\n; NOTE: Above produced by offline fallback due to API error:\n; " + result
-    return result
+    return sanitize_generation(prompt, result)
 
 def fix_ahk_code(original_prompt: str, broken_code: str) -> str:
     """
@@ -393,6 +530,8 @@ def fix_ahk_code(original_prompt: str, broken_code: str) -> str:
 
     # 2. Fix v1 comma syntax to v2 parentheses
     v1_fixes = {
+        # Order matters: handle sound toggles first
+        r'(?mi)^[ \t]*SoundSet,\s*\+?1\s*,\s*,\s*(Toggle|Mute|Unmute)\b.*$': 'SoundSetMute(-1)',
         r'\bMsgBox,\s*([^,\r\n]+)': r'MsgBox("\1")',
         r'\bSend,\s*([^,\r\n]+)': r'Send(\1)',
         r'\bSleep,\s*(\d+)': r'Sleep(\1)',
@@ -410,8 +549,9 @@ def fix_ahk_code(original_prompt: str, broken_code: str) -> str:
 
     # 3. Fix deprecated v1 functions
     deprecated_fixes = {
+        r'(?mi)^[ \t]*SoundGet,\s*(\w+)\s*,\s*Master\s*,\s*Mute\b.*$': r'\1 := SoundGetMute()',
+        r'(?mi)^[ \t]*SoundGet,\s*(\w+)\s*,\s*Master\s*,\s*Volume\b.*$': r'\1 := SoundGetVolume()',
         r'\bSoundSet,\s*([^,\r\n]+),\s*([^,\r\n]+),\s*([^,\r\n]+)': r'SoundSetVolume(\1)',
-        r'\bSoundGet,\s*(\w+),\s*([^,\r\n]+),\s*([^,\r\n]+)': r'\1 := SoundGetVolume()',
         r'\bStringReplace,\s*(\w+),\s*([^,\r\n]+),\s*([^,\r\n]+),\s*([^,\r\n]+)': r'\1 := StrReplace(\2, \3, \4)',
         r'\bStringSplit,\s*(\w+),\s*([^,\r\n]+),\s*([^,\r\n]+)': r'\1 := StrSplit(\2, \3)',
     }
@@ -528,26 +668,34 @@ Return ONLY the corrected AutoHotkey v2 code with proper syntax."""
             return f"; Auto-fixes applied: {', '.join(fixes_applied)}\n{fixed_code}"
         return f"; ERROR: Could not fix script via API\n; {result}\n\n{broken_code}"
 
+    result = sanitize_generation(original_prompt, result)
     return result
 
 def _fallback_generate(prompt: str) -> str:
     """Heuristic offline fallback so user still gets something if API fails."""
     p = prompt.lower()
-    lines = ["; Auto-generated fallback AHK v2 script (no API)", "#Requires AutoHotkey v2.0", "#SingleInstance Force"]
+    lines = [
+        "; Auto-generated fallback AHK v2 script (no API)",
+        "#Requires AutoHotkey v2.0",
+        "#SingleInstance Force"
+    ]
+    
     if 'volume' in p and 'scroll' in p:
         lines += [
             "; Control volume with Ctrl+Alt + Mouse Wheel",
             "^!WheelUp::Send '{Volume_Up}'",
-            "^!WheelDown::Send '{Volume_Down}'",
+            "^!WheelDown::Send '{Volume_Down}'"
         ]
+    
     if 'mute' in p:
         lines += [
             "; Toggle mute with Ctrl+Alt+M",
             "^!m:: {",
-            "    SoundSetMute -1",
-            "    TrayTip 'Audio', 'Mute toggled', 1000",
+            "    SoundSetMute(-1)",
+            "    TrayTip('Audio', 'Mute toggled', 1000)",
             "}"
         ]
+    
     if 'clipboard' in p:
         lines += [
             "; Simple clipboard history (stores last 10 entries)",
@@ -562,29 +710,31 @@ def _fallback_generate(prompt: str) -> str:
             "}",
             "^!v:: {",
             "    if ClipHist.Length() = 0 return",
-            "    Gui gui: New +AlwaysOnTop -Resize",
+            "    gui := Gui('+AlwaysOnTop -Resize')",
             "    gui.Add('Text',, 'Select clipboard item:')",
             "    lb := gui.Add('ListBox','vPick w300 h200', ClipHist)",
             "    gui.Add('Button','Default','Paste')",
             "    gui.OnEvent('Close', (*) => gui.Destroy())",
             "    gui.OnEvent('Escape', (*) => gui.Destroy())",
-            "    gui.OnEvent('Click', (*) => {",
+            "    gui['Paste'].OnEvent('Click', (*) => {",
             "        val := lb.Text",
             "        if val != '' {",
             "            A_Clipboard := val",
-            "            Send '^v'",
+            "            Send('^v')",
             "        }",
             "        gui.Destroy()",
             "    })",
             "    gui.Show()",
             "}"
         ]
+    
     if len(lines) <= 3:  # Nothing matched
         lines += [
             "; Unable to infer specific intent, provide skeleton.",
             "; Hotkey example: Ctrl+Alt+H shows a message box.",
-            "^!h::MsgBox 'Hello from fallback generator!'"
+            "^!h::MsgBox('Hello from fallback generator!')"
         ]
+    
     lines.append("; End of fallback script")
     return '\n'.join(lines)
 

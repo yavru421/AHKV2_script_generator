@@ -1,0 +1,12 @@
+{
+  "name": "psutil_tool",
+  "description": "Use psutil (Python) for process monitoring and system info",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "action": {"type": "string", "description": "Action (list_processes, cpu_usage, memory_info, etc.)"},
+      "pid": {"type": "integer", "description": "Process ID (optional, for specific process info)"}
+    },
+    "required": ["action"]
+  }
+}

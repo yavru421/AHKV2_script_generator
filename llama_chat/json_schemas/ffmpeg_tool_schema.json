@@ -1,0 +1,15 @@
+{
+  "name": "ffmpeg_tool",
+  "description": "Run ffmpeg for media conversion and processing",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "input_file": {"type": "string", "description": "Path to input media file"},
+      "output_file": {"type": "string", "description": "Path to save converted file"},
+      "codec": {"type": "string", "description": "Video codec (e.g., libx264, hevc)"},
+      "bitrate": {"type": "string", "description": "Target video bitrate (e.g., 1000k)"},
+      "extra_args": {"type": "array", "items": {"type": "string"}, "description": "Additional ffmpeg arguments"}
+    },
+    "required": ["input_file", "output_file"]
+  }
+}

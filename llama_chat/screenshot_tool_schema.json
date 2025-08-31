@@ -1,0 +1,24 @@
+{
+  "type": "function",
+  "function": {
+    "name": "take_screenshot_and_send",
+    "description": "Take one or more screenshots after running a script and send them to the Llama model for visual validation.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "image_paths": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "List of file paths to screenshots to send."
+        },
+        "context_text": {
+          "type": "string",
+          "description": "Optional text to describe what the screenshots show or what to validate."
+        }
+      },
+      "required": ["image_paths"],
+      "additionalProperties": false
+    },
+    "strict": true
+  }
+}

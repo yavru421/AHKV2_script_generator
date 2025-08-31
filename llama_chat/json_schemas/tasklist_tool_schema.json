@@ -1,0 +1,13 @@
+{
+  "name": "tasklist_tool",
+  "description": "Run tasklist/taskkill for process management on Windows",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "operation": {"type": "string", "description": "Operation (list, kill)"},
+      "pid": {"type": "integer", "description": "Process ID to kill (required for kill)"},
+      "filter": {"type": "string", "description": "Filter for listing processes (optional)"}
+    },
+    "required": ["operation"]
+  }
+}

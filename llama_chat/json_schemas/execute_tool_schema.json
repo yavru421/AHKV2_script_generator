@@ -1,0 +1,24 @@
+{
+  "type": "function",
+  "function": {
+    "name": "execute_and_validate_script",
+    "description": "Execute a script (Python or AHK) and validate its output. For Python, runs in venv and logs output. For AHK, validates syntax and runs if possible.",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "script_path": {
+          "type": "string",
+          "description": "The path to the script file to execute (e.g., .py or .ahk)."
+        },
+        "script_type": {
+          "type": "string",
+          "enum": ["python", "ahk"],
+          "description": "The type of script: 'python' for .py, 'ahk' for AutoHotkey."
+        }
+      },
+      "required": ["script_path", "script_type"],
+      "additionalProperties": false
+    },
+    "strict": true
+  }
+}

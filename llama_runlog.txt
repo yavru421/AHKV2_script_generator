@@ -1,0 +1,59 @@
+[2025-08-27 13:40:46,396] [INFO] Using API type: llama for prompt_len=29
+[2025-08-27 13:40:47,521] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 13:40:47,521] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=29
+[2025-08-27 13:40:48,493] [INFO] Llama API response status=200
+[2025-08-27 13:40:48,493] [INFO] Llama API result chars=68
+[2025-08-27 13:41:49,845] [INFO] Using API type: llama for prompt_len=21
+[2025-08-27 13:41:51,088] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 13:41:51,090] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=21
+[2025-08-27 13:41:53,263] [INFO] Llama API response status=200
+[2025-08-27 13:41:53,263] [INFO] Llama API result chars=258
+[2025-08-27 13:56:22,061] [INFO] Using API type: llama for prompt_len=30
+[2025-08-27 13:56:26,754] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 13:56:26,754] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=30
+[2025-08-27 13:56:28,473] [INFO] Llama API response status=200
+[2025-08-27 13:56:28,474] [INFO] Llama API result chars=33
+[2025-08-27 17:08:02,361] [INFO] Using API type: llama for prompt_len=21
+[2025-08-27 17:08:04,387] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 17:08:04,387] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=21
+[2025-08-27 17:08:05,782] [INFO] Llama API response status=200
+[2025-08-27 17:08:05,783] [INFO] Llama API result chars=116
+[2025-08-27 17:23:28,232] [INFO] Using API type: llama for prompt_len=82
+[2025-08-27 17:23:32,515] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 17:23:32,515] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=82
+[2025-08-27 17:23:38,646] [INFO] Llama API response status=200
+[2025-08-27 17:23:38,647] [INFO] Llama API result chars=977
+[2025-08-27 21:37:49,262] [INFO] Using API type: llama for prompt_len=32
+[2025-08-27 21:37:50,448] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 21:37:50,448] [INFO] Fallback API call: model=Llama-4-Scout-17B-16E-Instruct-FP8 url=https://api.llama.com/v1/chat/completions prompt_len=32
+[2025-08-27 21:37:51,472] [INFO] Llama API response status=200
+[2025-08-27 21:37:51,472] [INFO] Llama API result chars=63
+[2025-08-27 21:47:31,163] [INFO] Using API type: llama for prompt_len=77
+[2025-08-27 21:47:32,131] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 21:47:32,131] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=77
+[2025-08-27 21:47:32,579] [INFO] Using API type: llama for prompt_len=77
+[2025-08-27 21:47:42,460] [INFO] Llama API response status=200
+[2025-08-27 21:47:42,460] [INFO] Llama API result chars=32
+[2025-08-27 21:47:47,630] [WARNING] Official Llama client failed, falling back to requests
+[2025-08-27 21:47:47,631] [INFO] Fallback API call: model=Llama-3.3-70B-Instruct url=https://api.llama.com/v1/chat/completions prompt_len=77
+[2025-08-27 21:47:48,389] [INFO] Llama API response status=200
+[2025-08-27 21:47:48,389] [INFO] Llama API result chars=32
+[2025-08-28 03:05:54,160] [WARNING] LOCKDOWN: Detected 3 v1 syntax violations. Auto-converting...
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 3: v1 comma syntax - MsgBox, Hello World
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 4: v1 comma syntax - Send, {Enter}
+[2025-08-28 03:05:54,160] [INFO] LOCKDOWN violation: Line 5: v1 comma syntax - Sleep, 1000
+[2025-08-28 03:06:45,190] [WARNING] LOCKDOWN: Detected 2 v1 syntax violations. Auto-converting...
+[2025-08-28 03:06:45,190] [INFO] LOCKDOWN violation: Line 3: v1 comma syntax - MsgBox, This is v1 syntax
+[2025-08-28 03:06:45,190] [INFO] LOCKDOWN violation: Line 5: v1 comma syntax - Send, {Tab}
+[2025-08-28 03:08:27,935] [WARNING] LOCKDOWN: Detected 9 v1 syntax violations. Auto-converting...
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 3: v1 comma syntax - MsgBox, Hello World
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 4: v1 comma syntax - Send, {Ctrl down}a{Ctrl up}
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 5: v1 comma syntax - Sleep, 500
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 6: v1 comma syntax - IfWinActive, Notepad
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 8: v1 comma syntax - Run, calc.exe
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 9: v1 comma syntax - SoundSet, +1, , Toggle
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 11: v1 comma syntax - StringReplace, text, text, old, new
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 12: v1 loop syntax - Loop, Parse, MyVar, %A_Space%
+[2025-08-28 03:08:27,935] [INFO] LOCKDOWN violation: Line 13: v1 comma syntax - MsgBox, %A_LoopField%
+[2025-08-28 03:08:27,937] [ERROR] LOCKDOWN: 3 v1 patterns could not be auto-converted!
+[2025-08-28 03:08:27,938] [ERROR] Post-generation validation failed: Validation error: Line 18: 'IfWinActive' not available in v2. Use: if WinActive() | Validation error: Line 23: 'StringReplace' not available in v2. Use: StrReplace | Validation error: Line 24: 'Loop, Parse' not available in v2. Use: Loop Parse
